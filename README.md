@@ -15,3 +15,9 @@ Ses Muhendisleri
 ## Proje Ekibi
 - Orhan Selman Yalçın
 - Hüseyin Akaslan
+
+## Dokümantasyon
+
+Proje dokümantasyonuna aşağıdaki linkten erişebilirsiniz:
+
+- [Genel Gereksinimler](https://github.com/huseyun/kulakliksatis/blob/master/Genel-Gereksinimler.md)
