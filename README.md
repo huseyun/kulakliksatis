@@ -21,3 +21,4 @@ Ses Muhendisleri
 Proje dokümantasyonuna aşağıdaki linkten erişebilirsiniz:
 
 - [Genel Gereksinimler](https://github.com/huseyun/kulakliksatis/blob/master/Genel-Gereksinimler.md)
+- [REST API Tasarımı](https://github.com/huseyun/kulakliksatis/blob/master/API-Tasarimi.md)
