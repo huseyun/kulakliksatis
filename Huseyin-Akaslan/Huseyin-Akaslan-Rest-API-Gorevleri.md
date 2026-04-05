@@ -1,3 +1,7 @@
+# Hüseyin Akaslan REST API videolar
+
+**API Test videosu:** [video](https://www.youtube.com/watch?v=M7SUWZCo5a8)
+
 # 1. Sisteme Yeni Shopper Kaydı (Create - Site Kayıt)
 Endpoint: POST /api/auth/register
 
