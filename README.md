@@ -9,6 +9,11 @@ E-Ticaret ve Arka Yüz (Backend) Servisleri
 ## Referans Uygulamalar
 Bu çalışma hazırlanırken standart e-ticaret sistemleri, Spring Security mimarisi ve modern REST API tasarım prensipleri referans alınmıştır.
 
+## Proje Linkleri
+
+**REST API Adresi:** [api.famanas.xyz](https://api.famanas.xyz)
+**Web Frontend Adresi:** [frontend.famanas.xyz](https://famanas.xyz)
+
 ## Grup Adi
 Ses Muhendisleri
 
@@ -20,5 +25,6 @@ Ses Muhendisleri
 
 Proje dokümantasyonuna aşağıdaki linkten erişebilirsiniz:
 
-- [Genel Gereksinimler](https://github.com/huseyun/kulakliksatis/blob/master/Genel-Gereksinimler.md)
-- [REST API Tasarımı](https://github.com/huseyun/kulakliksatis/blob/master/API-Tasarimi.md)
+- [Genel Gereksinimler](Genel-Gereksinimler.md)
+- [REST API Tasarımı](API-Tasarimi.md)
+- [REST API](Rest-API.md)
