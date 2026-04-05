@@ -1,6 +1,7 @@
 # Web Frontend Görev Dağılımı ve Prensipleri
 
 **Web Frontend Adresi:** [frontend.famanas.xyz](https://famanas.xyz)
+
 **Teknoloji Yığını:** `[React, TailwindCSS, Axios]`
 
 Bu doküman, web uygulamasının kullanıcı arayüzü (UI) geliştirme süreçlerini, temel prensipleri ve grup üyelerinin sayfa bazlı sorumluluklarını özetlemektedir.
