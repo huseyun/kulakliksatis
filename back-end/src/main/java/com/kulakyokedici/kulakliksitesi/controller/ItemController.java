@@ -60,4 +60,80 @@ public class ItemController
         return ResponseEntity.ok(results);
     }
 	
+	@PreAuthorize("hasRole('SELLER')")
+	@GetMapping("/{id}")
+	public ResponseEntity<ItemResponse> getItemById(
+			@PathVariable Long id)
+	{
+		return ResponseEntity.ok(itemService.getById(id));
+	}
+	
+	/*
+	 * PUT istekleri
+	 */
+	
+	@PreAuthorize("hasRole('SELLER')")
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> updateItem(
+			@PathVariable Long id,
+			@RequestBody ItemUpdateRequest req,
+			Principal principal)
+	{
+		SellerResponse sellerResp = itemService.getSellerById(id);
+		
+		if(!sellerResp.username().equals(principal.getName()))
+			throw new AccessDeniedException("bunu yapmaya yetkiniz yok.");
+		
+		itemService.update(id, req);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
+	/*
+	 * POST istekleri
+	 */
+	
+	@PreAuthorize("hasRole('SELLER')")
+	@PostMapping
+	public ResponseEntity<ItemResponse> createItem(
+			@Valid @RequestBody ItemCreateRequest item,
+			Principal principal)
+	{
+		ItemResponse resp = itemService.add(item, principal.getName());
+		
+		return ResponseEntity.created(URI.create("/api/items/" + resp.id()))
+				.body(resp);
+	}
+	
+	@PreAuthorize("hasRole('SELLER')")
+	@PostMapping("/{id}/images")
+	public ResponseEntity<Void> updateItemImages(
+			@PathVariable Long id,
+			@Valid @RequestBody ItemImageCreateRequest image,
+			Principal principal)
+	{
+		SellerResponse sellerResp = itemService.getSellerById(id);
+		
+		if(!sellerResp.username().equals(principal.getName()))
+			throw new AccessDeniedException("bunu yapmaya yetkiniz yok.");
+		
+		itemService.addImage(image, id);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
+	/*
+	 * DELETE istekleri
+	 */
+	
+	@PreAuthorize("hasRole('SELLER')")
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteItem(
+			@PathVariable Long id,
+			Principal principal)
+	{
+		itemService.delete(id);
+		
+		return ResponseEntity.noContent().build();
+	}
 }

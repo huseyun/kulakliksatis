@@ -48,4 +48,19 @@ public class SellerController
 		return ResponseEntity.ok(itemService.getSummaryAllBySellerId(resp.id()));
 	}
 	
+	/*
+	 * PUT istekleri
+	 */
+	
+	@PutMapping
+	public ResponseEntity<Void> updateSellerDetails(
+			@Valid @RequestBody SellerDetailsUpdateRequest req,
+			Principal principal)
+	{
+		SellerResponse seller = sellerService.getByUsername(principal.getName());
+		
+		sellerService.updateDetails(seller.id(), req);
+		
+		return ResponseEntity.noContent().build();
+	}
 }
