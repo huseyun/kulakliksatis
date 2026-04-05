@@ -1,3 +1,7 @@
+# Orhan Selman Yalçın REST API videolar
+
+**API Test videosu:** [video](https://www.youtube.com/watch?v=IfLOAxR5ef8)
+
 # 1. Satıcı Şirket Bilgilerini Güncelleme (Update - Satıcı Profil)
 Endpoint: PUT /api/sellers
 
