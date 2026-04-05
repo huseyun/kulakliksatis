@@ -1,3 +1,7 @@
+# Orhan Selman Yalçın Front-end Videoları
+
+**API Test videosu:** [video](https://youtu.be/tSqcL06Nj2E?si=zB9Da8ZOwTfhDZdg)
+
 # 1. Satıcı Şirket Profili Yönetimi
 API Endpoint: PUT /api/sellers
 
