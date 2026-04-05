@@ -1,3 +1,7 @@
+# Hüseyin Akaslan Front-end Görevleri
+
+**Front-end Test videosu:** [video](https://www.youtube.com/watch?v=QuHIMTkdAm8)
+
 # 1. Üye Olma (Kayıt) Sayfası
 API Endpoint: POST /api/auth/register
 
