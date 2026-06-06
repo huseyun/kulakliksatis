@@ -1,8 +1,13 @@
 {
   "permissions": {
     "allow": [
+      "Bash(npm install *)",
       "Bash(npx tsc *)",
-      "Bash(npx ng *)"
+      "Bash(npx expo *)",
+      "Bash(node -e \"const m = require\\('./node_modules/metro/src/Bundler.js'\\); console.log\\('ok'\\)\")",
+      "Bash(node -e \"try { require\\('react-native-worklets/plugin'\\); console.log\\('worklets ok'\\) } catch\\(e\\) { console.log\\('worklets error:', e.message\\) }\")",
+      "Bash(node -e \"const b = require\\('babel-preset-expo'\\); console.log\\(typeof b\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/metro/src/Bundler'\\); const keys = Object.getOwnPropertyNames\\(p.prototype || p\\); console.log\\(keys.slice\\(0,10\\)\\)\")"
     ]
   }
 }
