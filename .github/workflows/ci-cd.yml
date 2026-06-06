@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  BACKEND_IMAGE: ghcr.io/kullaniciadi/kulakliksitesi-backend
-  FRONTEND_IMAGE: ghcr.io/kullaniciadi/kulakliksitesi-frontend
+  BACKEND_IMAGE: ghcr.io/huseyun/kulakliksitesi-backend
+  FRONTEND_IMAGE: ghcr.io/huseyun/kulakliksitesi-frontend
 
 jobs:
   build-backend:

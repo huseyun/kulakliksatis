@@ -26,7 +26,7 @@ services:
       retries: 10
 
   backend:
-    image: ghcr.io/kullaniciadi/kulakliksitesi-backend:latest
+    image: ghcr.io/huseyun/kulakliksitesi-backend:latest
     environment:
       DB_URL: jdbc:postgresql://postgres:5432/kulaklikdb
       DB_USERNAME: postgres
@@ -40,7 +40,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: ghcr.io/kullaniciadi/kulakliksitesi-frontend:latest
+    image: ghcr.io/huseyun/kulakliksitesi-frontend:latest
     ports:
       - "80:80"
     depends_on:
