@@ -51,7 +51,7 @@ export const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
-          Sisteme Giriş Yapp
+          Sisteme Giriş Yappp
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
