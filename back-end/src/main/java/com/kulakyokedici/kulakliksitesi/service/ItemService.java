@@ -184,8 +184,11 @@ public class ItemService
 			image.setOriginalKey(originalKey);
 			image.setThumbnailKey(thumbnailKey);
 			image.setStandartKey(standardKey);
-			
-			if(isThumbnail.get(i).booleanValue() == true)
+
+			boolean markAsThumbnail = isThumbnail != null && i < isThumbnail.size()
+					&& Boolean.TRUE.equals(isThumbnail.get(i));
+
+			if(markAsThumbnail)
 			{
 				item.getImages().stream()
 				.forEach(img -> img.setThumbnail(false));
@@ -193,10 +196,14 @@ public class ItemService
 			}
 			else
 				image.setThumbnail(false);
-			
+
 			item.getImages().add(image);
 			i++;
 		}
+
+		boolean hasThumbnail = item.getImages().stream().anyMatch(Image::isThumbnail);
+		if(!hasThumbnail && !item.getImages().isEmpty())
+			item.getImages().get(0).setThumbnail(true);
 	}
 	
 	public void delete(Long id)

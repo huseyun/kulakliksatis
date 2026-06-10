@@ -2,7 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Button, Chip, Text } from "react-native-paper";
+import { Button, Chip, IconButton, Text } from "react-native-paper";
 import { uploadItemImages } from "@/api/items";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { Image } from "expo-image";
@@ -12,6 +12,7 @@ type PickedFile = { uri: string; name: string; type: string };
 export default function ProductImagesScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [picked, setPicked] = useState<PickedFile[]>([]);
+  const [thumbnailUri, setThumbnailUri] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -29,11 +30,18 @@ export default function ProductImagesScreen() {
         type: asset.mimeType ?? "image/jpeg",
       }));
       setPicked((prev) => [...prev, ...files]);
+      setThumbnailUri((prev) => prev ?? files[0]?.uri ?? null);
     }
   };
 
   const removeImage = (uri: string) => {
-    setPicked((prev) => prev.filter((f) => f.uri !== uri));
+    setPicked((prev) => {
+      const next = prev.filter((f) => f.uri !== uri);
+      if (thumbnailUri === uri) {
+        setThumbnailUri(next[0]?.uri ?? null);
+      }
+      return next;
+    });
   };
 
   const handleUpload = async () => {
@@ -42,9 +50,11 @@ export default function ProductImagesScreen() {
     setError(null);
     setSuccessMsg(null);
     try {
-      await uploadItemImages(Number(id), picked);
+      const isThumbnail = picked.map((f) => f.uri === thumbnailUri);
+      await uploadItemImages(Number(id), picked, isThumbnail);
       setSuccessMsg(`${picked.length} görsel yüklendi.`);
       setPicked([]);
+      setThumbnailUri(null);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Yükleme başarısız.");
     } finally {
@@ -61,7 +71,8 @@ export default function ProductImagesScreen() {
         ListHeaderComponent={
           <View style={styles.header}>
             <Text variant="bodyMedium" style={styles.hint}>
-              Galeriden fotoğraf seçin, sonra yükleyin.
+              Galeriden fotoğraf seçin, sonra yükleyin. Vitrin fotoğrafı olarak kullanılacak görseli
+              yıldız ikonuyla işaretleyin.
             </Text>
             <Button mode="outlined" icon="image-plus" onPress={pickImages} style={styles.pickButton}>
               Fotoğraf Seç
@@ -74,19 +85,29 @@ export default function ProductImagesScreen() {
             )}
           </View>
         }
-        renderItem={({ item }) => (
-          <View style={styles.imageWrapper}>
-            <Image source={{ uri: item.uri }} style={styles.thumbnail} contentFit="cover" />
-            <Chip
-              compact
-              onClose={() => removeImage(item.uri)}
-              style={styles.chip}
-              textStyle={styles.chipText}
-            >
-              {item.name.length > 10 ? item.name.slice(0, 10) + "…" : item.name}
-            </Chip>
-          </View>
-        )}
+        renderItem={({ item }) => {
+          const isThumbnail = item.uri === thumbnailUri;
+          return (
+            <View style={styles.imageWrapper}>
+              <Image source={{ uri: item.uri }} style={styles.thumbnail} contentFit="cover" />
+              <IconButton
+                icon={isThumbnail ? "star" : "star-outline"}
+                iconColor={isThumbnail ? "#f59e0b" : "#fff"}
+                size={20}
+                style={styles.starButton}
+                onPress={() => setThumbnailUri(item.uri)}
+              />
+              <Chip
+                compact
+                onClose={() => removeImage(item.uri)}
+                style={styles.chip}
+                textStyle={styles.chipText}
+              >
+                {item.name.length > 10 ? item.name.slice(0, 10) + "…" : item.name}
+              </Chip>
+            </View>
+          );
+        }}
         ListFooterComponent={
           picked.length > 0 ? (
             <Button
@@ -116,6 +137,13 @@ const styles = StyleSheet.create({
   pickButton: { borderColor: "#1a237e" },
   imageWrapper: { flex: 1 / 3, margin: 4 },
   thumbnail: { width: "100%", aspectRatio: 1, borderRadius: 8 },
+  starButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    margin: 0,
+    backgroundColor: "rgba(0,0,0,0.35)",
+  },
   chip: { marginTop: 4, backgroundColor: "#e0e7ff" },
   chipText: { fontSize: 10 },
   uploadButton: { marginTop: 16 },
