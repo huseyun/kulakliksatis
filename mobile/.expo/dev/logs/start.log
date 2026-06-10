@@ -649,3 +649,17 @@
 {"_e":"metro:bundling:progress","_t":1780753763588,"id":"4","progress":0.9734125173667632,"total":1947,"current":1914}
 {"_e":"metro:bundling:progress","_t":1780753763692,"id":"4","progress":0.999,"total":1971,"current":1971}
 {"_e":"metro:bundling:done","_t":1780753763865,"id":"4","total":1971,"ms":6248.3395}
+{"_e":"root:init","_t":1781083761081,"format":"v0-jsonl","version":"56.1.13"}
+{"_e":"env:mode","_t":1781083761082,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1781083761086,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1781083762041,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1781083762985,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1781083763702,"level":"warn","data":["The latest version of React Native DevTools is not supported on this platform. Using a fallback version instead."]}
+{"_e":"metro:instantiate","_t":1781083784899,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"root:init","_t":1781083826537,"format":"v0-jsonl","version":"56.1.13"}
+{"_e":"env:mode","_t":1781083826538,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1781083826543,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1781083827073,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1781083827736,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1781083827971,"level":"warn","data":["The latest version of React Native DevTools is not supported on this platform. Using a fallback version instead."]}
+{"_e":"metro:instantiate","_t":1781083842402,"atlas":false,"workers":6,"host":"::","port":8081}
