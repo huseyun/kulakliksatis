@@ -37,6 +37,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       ES_URIS: http://elasticsearch:9200
+    ports:
+      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
