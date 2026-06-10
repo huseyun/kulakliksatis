@@ -65,6 +65,7 @@ services:
       ES_URIS: http://elasticsearch:9200
     ports:
       - "8087:8080"
+    network: host # Build sürecinin host ağını kullanmasını sağlar
     depends_on:
       postgres:
         condition: service_healthy
