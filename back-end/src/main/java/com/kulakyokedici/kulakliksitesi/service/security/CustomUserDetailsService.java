@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.kulakyokedici.kulakliksitesi.objects.data.User;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
 import com.kulakyokedici.kulakliksitesi.objects.security.SecurityUser;
 import com.kulakyokedici.kulakliksitesi.repository.UserRepository;
@@ -27,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
 		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "username", username));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "username", username, EErrorCode.USER_NOT_FOUND));
 		 
 	    return new SecurityUser(user);
 	}

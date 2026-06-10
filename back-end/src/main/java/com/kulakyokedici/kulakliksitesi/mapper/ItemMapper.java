@@ -1,9 +1,9 @@
 package com.kulakyokedici.kulakliksitesi.mapper;
 
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Component;
 
+import com.kulakyokedici.kulakliksitesi.config.s3.StorageProperties;
+import com.kulakyokedici.kulakliksitesi.objects.data.Image;
 import com.kulakyokedici.kulakliksitesi.objects.data.Item;
 import com.kulakyokedici.kulakliksitesi.objects.data.Seller;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.ItemCreateRequest;
@@ -15,6 +15,12 @@ import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.SellerResponse
 @Component
 public class ItemMapper
 {
+	private final StorageProperties storageProperties;
+
+    // properties'i inject ediyoruz
+    public ItemMapper(StorageProperties storageProperties) {
+        this.storageProperties = storageProperties;
+    }
 	
 	public Item toEntity(ItemCreateRequest req, Seller seller)
 	{
@@ -41,18 +47,35 @@ public class ItemMapper
 						item.getSeller().getUsername(),
 						item.getSeller().getEmail(),
 						item.getSeller().getCompanyName()),
-				item.getImages());
+				item.getImages(),
+				item.getAutoeqId()
+				);
+			
 	}
 	
 	public ItemSummaryResponse toSummaryResponse(Item item)
 	{
+		String thumbnailKey;
+		if(!item.getImages().isEmpty())
+			thumbnailKey = storageProperties.getEndpoint()
+					+ "/"
+					+ storageProperties.getAllBuckets().get("product-images")
+					+ "/"
+					+ item.getImages().stream()
+					.filter(image -> image.isThumbnail())
+					.findAny()
+					.map(image -> image.getThumbnailKey())
+					.orElse("");
+		else
+			thumbnailKey = "-";
+		
 		return new ItemSummaryResponse(
 				item.getId(),
 				item.getTitle(),
 				item.getPrice(),
-				item.getSmallImages().stream()
-					.map(image -> image.getUrl())
-					.collect(Collectors.toList()));
+				item.isRecommended(),
+				thumbnailKey
+				);
 	}
 	
 	public void updateEntity(Item item, ItemUpdateRequest req)

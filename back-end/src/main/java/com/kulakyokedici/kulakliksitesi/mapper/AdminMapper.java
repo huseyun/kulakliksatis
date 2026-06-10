@@ -40,13 +40,13 @@ public class AdminMapper {
 		return admin;
 	}
 	
+	// hata olabilir
 	public Admin toEntity(UserUpdateRequest req)
 	{
 		Admin admin = new Admin();
 		
 		admin.setEmail(req.email());
 		admin.setUsername(req.username());
-		admin.setPassword(passwordEncoder.encode(req.password()));
 		
 		return admin;
 	}
@@ -55,6 +55,5 @@ public class AdminMapper {
 	{
 		admin.setEmail(req.email());
 		admin.setUsername(req.username());
-		admin.setPassword(passwordEncoder.encode(req.password()));
 	}
 }

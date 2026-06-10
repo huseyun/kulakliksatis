@@ -13,6 +13,7 @@ import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.ShopperCreateRe
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.ShopperDetailsUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.ShopperUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.ShopperResponse;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
 import com.kulakyokedici.kulakliksitesi.repository.ShopperRepository;
 import com.kulakyokedici.kulakliksitesi.repository.UserTypeRepository;
@@ -40,7 +41,7 @@ public class ShopperService
 	public ShopperResponse getById(Long id)
 	{
 		Shopper shopper = shopperRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id, EErrorCode.SHOPPER_NOT_FOUND));
 		
 		return shopperMapper.toResponse(shopper);
 	}
@@ -48,7 +49,7 @@ public class ShopperService
 	public ShopperResponse getByUsername(String username)
 	{
 		Shopper shopper = shopperRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("shopper", "username", username));
+				.orElseThrow(() -> new ResourceNotFoundException("shopper", "username", username, EErrorCode.SHOPPER_NOT_FOUND));
 		
 		return shopperMapper.toResponse(shopper);
 	}
@@ -56,7 +57,7 @@ public class ShopperService
 	public ShopperResponse getByEmail(String email)
 	{
 		Shopper shopper = shopperRepository.findByEmail(email)
-				.orElseThrow(() -> new ResourceNotFoundException("shopper", "email", email));
+				.orElseThrow(() -> new ResourceNotFoundException("shopper", "email", email, EErrorCode.SHOPPER_NOT_FOUND));
 		
 		return shopperMapper.toResponse(shopper);
 	}
@@ -76,7 +77,7 @@ public class ShopperService
 		
 		shopper.getUserTypes().add(
 				userTypeRepository.findByName(EUserType.SHOPPER)
-				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.SHOPPER)));
+				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.SHOPPER, EErrorCode.USERTYPE_NOT_FOUND)));
 		
 		shopperRepository.save(shopper);
 		
@@ -88,7 +89,7 @@ public class ShopperService
 			ShopperUpdateRequest req)
 	{
 	    Shopper existing = shopperRepository.findById(id)
-	    		.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id));
+	    		.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id, EErrorCode.SHOPPER_NOT_FOUND));
 	    
 	    shopperMapper.updateEntity(existing, req);
 	}
@@ -98,7 +99,7 @@ public class ShopperService
 			ShopperDetailsUpdateRequest newShopperDetails)
 	{
 		Shopper existing = shopperRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("shopper", "id", id, EErrorCode.SHOPPER_NOT_FOUND));
 		
 		shopperMapper.updateEntity(existing, newShopperDetails);
 	}

@@ -36,7 +36,6 @@ public class UserMapper {
 	{
 		user.setEmail(req.email());
 		user.setUsername(req.username());
-		user.setPassword(passwordEncoder.encode(req.password()));
 	}
 	
 	public void updateEntity(User user, UserPasswordUpdateRequest req)

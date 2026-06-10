@@ -34,6 +34,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
+        
+        String path = request.getRequestURI();
+        // Login ve diğer public endpoint'leri atla
+        if (path.equals("/api/auth/login") || path.equals("/api/auth/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Token yoksa veya formatı yanlışsa, isteği sonraki filtreye devret ve çık.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

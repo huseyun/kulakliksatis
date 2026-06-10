@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.kulakyokedici.kulakliksitesi.config.s3.StorageProperties;
 import com.kulakyokedici.kulakliksitesi.objects.data.Item;
 import com.kulakyokedici.kulakliksitesi.objects.data.Seller;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.SellerCreateRequest;
@@ -18,12 +19,16 @@ import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.SellerResponse
 @Component
 public class SellerMapper
 {
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
+	private final StorageProperties storageProperties;
 	
 	@Autowired
-	public SellerMapper(PasswordEncoder passwordEncoder)
+	public SellerMapper(
+			PasswordEncoder passwordEncoder,
+			StorageProperties storageProperties)
 	{
 		this.passwordEncoder = passwordEncoder;
+		this.storageProperties = storageProperties;
 	}
 	
 	public Seller toEntity(SellerUpdateRequest newSeller)
@@ -83,12 +88,26 @@ public class SellerMapper
 	// itemler için yardımcı metot.
 	private ItemSummaryResponse toSummaryResponse(Item item)
 	{
+		String thumbnailKey;
+		if(!item.getImages().isEmpty())
+			thumbnailKey = storageProperties.getEndpoint()
+					+ "/"
+					+ storageProperties.getAllBuckets().get("product-images")
+					+ "/"
+					+ item.getImages().stream()
+					.filter(image -> image.isThumbnail())
+					.findAny()
+					.map(image -> image.getThumbnailKey())
+					.orElse("");
+		else
+			thumbnailKey = "-";
+		
 		return new ItemSummaryResponse(
 				item.getId(),
 				item.getTitle(),
 				item.getPrice(),
-				item.getImages().stream()
-					.map(image -> image.getUrl())
-					.collect(Collectors.toList()));
+				item.isRecommended(),
+				thumbnailKey
+				);
 	}
 }

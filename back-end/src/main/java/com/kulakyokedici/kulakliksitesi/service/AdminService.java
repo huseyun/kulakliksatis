@@ -13,6 +13,7 @@ import com.kulakyokedici.kulakliksitesi.objects.data.EUserType;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserCreateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.AdminResponse;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
 import com.kulakyokedici.kulakliksitesi.repository.AdminRepository;
 import com.kulakyokedici.kulakliksitesi.repository.UserTypeRepository;
@@ -48,7 +49,7 @@ public class AdminService
 	public AdminResponse getById(Long id)
 	{
 		Admin admin = adminRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("admin", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("admin", "id", id, EErrorCode.ADMIN_NOT_FOUND));
 		
 		return adminMapper.toResponse(admin);
 	}
@@ -56,7 +57,7 @@ public class AdminService
 	public AdminResponse getByUsername(String username)
 	{
 		Admin admin = adminRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("admin", "username", username));
+				.orElseThrow(() -> new ResourceNotFoundException("admin", "username", username, EErrorCode.ADMIN_NOT_FOUND));
 		
 		return adminMapper.toResponse(admin);
 	}
@@ -64,7 +65,7 @@ public class AdminService
 	public AdminResponse getByEmail(String email)
 	{
 		Admin admin = adminRepository.findByEmail(email)
-				.orElseThrow(() -> new ResourceNotFoundException("admin", "email", email));
+				.orElseThrow(() -> new ResourceNotFoundException("admin", "email", email, EErrorCode.ADMIN_NOT_FOUND));
 		
 		return adminMapper.toResponse(admin);
 	}
@@ -74,7 +75,7 @@ public class AdminService
 		Admin admin = adminMapper.toEntity(newAdmin);
 		
 		admin.getUserTypes().add(userTypesRepository.findByName(EUserType.ADMIN)
-				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.ADMIN)));
+				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.ADMIN, EErrorCode.USERTYPE_NOT_FOUND)));
 		
         adminRepository.save(admin);
 	}
@@ -83,7 +84,7 @@ public class AdminService
 	public void update(Long adminId, UserUpdateRequest req)
 	{
 		Admin existing = adminRepository.findById(adminId)
-				.orElseThrow(() -> new ResourceNotFoundException("admin", "id", adminId));
+				.orElseThrow(() -> new ResourceNotFoundException("admin", "id", adminId, EErrorCode.ADMIN_NOT_FOUND));
 		
 		adminMapper.updateEntity(existing, req);
 	}

@@ -3,13 +3,20 @@ package com.kulakyokedici.kulakliksitesi.objects.data;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "shoppers")
+@Getter
+@Setter
 public class Shopper extends User
 {
 	public Shopper() {}
@@ -58,31 +65,7 @@ public class Shopper extends User
     column = @Column(name = "SHIPPING_CITY"))
     })
     private Address shippingAddress;
-	
-	public String getFirstName()
-	{
-		return firstName;
-	}
-	
-	public String getLastName()
-	{
-		return lastName;
-	}
-	
-	public void setFirstName(String firstname)
-	{
-		this.firstName = firstname;
-	}
-	
-	public void setLastName(String lastName)
-	{
-		this.lastName = lastName;
-	}
-	
-//	public void fullUpdate(Shopper newShopper)
-//	{
-//		super.fullUpdate(newShopper);
-//		this.firstName = newShopper.getFirstName();
-//		this.lastName = newShopper.getLastName();
-//	}
+    
+    @OneToOne(mappedBy = "shopper", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cart cart;
 }

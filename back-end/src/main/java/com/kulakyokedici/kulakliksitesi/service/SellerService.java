@@ -17,6 +17,7 @@ import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.SellerDetailsUp
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.SellerUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.SellerDetailedResponse;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.SellerResponse;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
 import com.kulakyokedici.kulakliksitesi.repository.SellerRepository;
 import com.kulakyokedici.kulakliksitesi.repository.UserTypeRepository;
@@ -44,7 +45,7 @@ public class SellerService
 	public SellerResponse getById(Long id)
 	{
 		Seller seller = sellerRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id, EErrorCode.SELLER_NOT_FOUND));
 		
 		return sellerMapper.toResponse(seller);
 	}
@@ -52,7 +53,7 @@ public class SellerService
 	public SellerDetailedResponse getDetailedResponseById(Long id)
 	{
 		Seller seller = sellerRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id, EErrorCode.SELLER_NOT_FOUND));
 		
 		return sellerMapper.toDetailedResponse(seller);
 	}
@@ -60,7 +61,7 @@ public class SellerService
 	public SellerResponse getByUsername(String username)
 	{
 		Seller seller = sellerRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "username", username));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "username", username, EErrorCode.SELLER_NOT_FOUND));
 		
 		return sellerMapper.toResponse(seller);
 	}
@@ -68,7 +69,7 @@ public class SellerService
 	public SellerResponse getByEmail(String email)
 	{
 		Seller seller = sellerRepository.findByEmail(email)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "email", email));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "email", email, EErrorCode.SELLER_NOT_FOUND));
 		
 		return sellerMapper.toResponse(seller);
 	}
@@ -76,7 +77,7 @@ public class SellerService
 	public SellerResponse getByCompanyName(String companyName)
 	{
 		Seller seller = sellerRepository.findByCompanyName(companyName)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "companyName", companyName));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "companyName", companyName, EErrorCode.SELLER_NOT_FOUND));
 		
 		return sellerMapper.toResponse(seller);
 	}
@@ -95,7 +96,7 @@ public class SellerService
 		Seller seller = sellerMapper.toEntity(newSeller);
 		
 		seller.getUserTypes().add(userTypesRepository.findByName(EUserType.SELLER)
-				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.SELLER)));
+				.orElseThrow(() -> new ResourceNotFoundException("user type", "user type name", EUserType.SELLER, EErrorCode.USERTYPE_NOT_FOUND)));
 		
 		sellerRepository.save(seller);
 		
@@ -105,7 +106,7 @@ public class SellerService
 	public void update(Long id, SellerUpdateRequest req)
 	{
 		Seller existing = sellerRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id, EErrorCode.SELLER_NOT_FOUND));
 		
 		sellerMapper.updateEntity(existing, req);
 	}
@@ -114,7 +115,7 @@ public class SellerService
 	public void updateDetails(Long id, SellerDetailsUpdateRequest req)
 	{
 		Seller existing = sellerRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("seller", "id", id, EErrorCode.SELLER_NOT_FOUND));
 		
 		sellerMapper.updateEntity(existing, req);
 	}

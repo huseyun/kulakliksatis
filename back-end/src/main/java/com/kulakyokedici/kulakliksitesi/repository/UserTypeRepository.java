@@ -9,5 +9,5 @@ import com.kulakyokedici.kulakliksitesi.objects.data.UserType;
 
 // Bu interface, UserTypes tablosunda findById gibi temel veritabanı işlemlerini yapmamızı sağlar.
 public interface UserTypeRepository extends CrudRepository<UserType, Long> {
-	public Optional<UserType> findByName(EUserType roleAdmin);
+	public Optional<UserType> findByName(EUserType name);
 }

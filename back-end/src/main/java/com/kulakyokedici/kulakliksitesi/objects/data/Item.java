@@ -1,14 +1,12 @@
 package com.kulakyokedici.kulakliksitesi.objects.data;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -21,15 +19,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "items")
 @Indexed
+@Getter
+@Setter
 public class Item implements Comparable<Item>
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Setter(AccessLevel.NONE)
 	private Long id;
+	
+	// Bu değer dışarıdan değiştirilemez (updatable=false), boş olamaz ve benzersizdir.
+	@Column(name = "item_uuid", updatable = false, nullable = false, unique = true)
+	private String itemUuid = java.util.UUID.randomUUID().toString();
+	
+	@Column(name = "autoeq_id", nullable = true)
+	private String autoeqId;
 	
 	@Column(name = "name")
 	@Nullable
@@ -48,7 +59,18 @@ public class Item implements Comparable<Item>
 	@Column(name = "item_price")
 	private Double price;
 	
+	// uygulama içi fiyat hesaplama yapılacak.
 	private transient Double priceAfterTax;
+	
+	@Column(name = "is_recommended")
+	private boolean isRecommended;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+	
+	@Column(name = "stock")
+	private Integer stock;
 	
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,18 +80,7 @@ public class Item implements Comparable<Item>
 	@ElementCollection
 	@CollectionTable(name = "images")
 	@Nullable
-	@AttributeOverride(
-			name = "url",
-			column = @Column(name = "image_url"))
-	private Set<Image> images = new HashSet<>();
-	
-	@ElementCollection
-	@CollectionTable(name = "small_images")
-	@Nullable
-	@AttributeOverride(
-			name = "url",
-			column = @Column(name = "small_image_url"))
-	private Set<Image> smallImages = new HashSet<>();
+	private List<Image> images;
 	
 	@Nullable
 	@Column(name = "description")
@@ -80,90 +91,5 @@ public class Item implements Comparable<Item>
 	public int compareTo(Item other)
 	{
 		return this.id.compareTo(other.id);
-	}
-	
-	public Long getId()
-	{
-		return id;
-	}
-	
-	public Seller getSeller()
-	{
-		return seller;
-	}
-
-	public void setSeller(Seller seller)
-	{
-		this.seller = seller;
-	}
-
-	public Set<Image> getImages()
-	{
-		return images;
-	}
-
-	public void setImages(Set<Image> images)
-	{
-		this.images = images;
-	}
-
-	public void setPrice(Double itemPrice)
-	{
-		this.price = itemPrice;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-	
-	public void setName(String itemName)
-	{
-		this.name = itemName;
-	}
-    
-    public Double getPrice()
-    {
-    	return price;
-    }
-	
-    public String getDescription()
-	{
-		return description;
-	}
-
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-	
-	public String getTitle()
-	{
-		return title;
-	}
-
-	public void setTitle(String title)
-	{
-		this.title = title;
-	}
-	
-	public Set<Image> getSmallImages()
-	{
-		return smallImages;
-	}
-
-	public void setSmallImages(Set<Image> smallImages)
-	{
-		this.smallImages = smallImages;
-	}
-	
-	public String getBrand()
-	{
-		return brand;
-	}
-
-	public void setBrand(String brand)
-	{
-		this.brand = brand;
 	}
 }

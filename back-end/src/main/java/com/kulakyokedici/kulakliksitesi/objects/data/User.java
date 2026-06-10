@@ -18,6 +18,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -114,10 +115,6 @@ public abstract class User
         this.userTypes = userTypes;
     }
     
-    public void resetId()
-	{
-		this.id = null;
-	}
     
     public void addUserType(UserType userType) {
         this.userTypes.add(userType);

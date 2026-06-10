@@ -12,6 +12,7 @@ import com.kulakyokedici.kulakliksitesi.objects.data.User;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserPasswordUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.UserResponse;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
 import com.kulakyokedici.kulakliksitesi.repository.UserRepository;
 
@@ -47,7 +48,7 @@ public class UserService
 	public UserResponse getByUsername(String username)
 	{
 		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "username", username));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "username", username, EErrorCode.USER_NOT_FOUND));
 		
 		return userMapper.toUserResponse(user);
 	}
@@ -56,7 +57,7 @@ public class UserService
 	public UserResponse getById(long id)
 	{
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id, EErrorCode.USER_NOT_FOUND));
 		
 		return userMapper.toUserResponse(user);
 	}
@@ -64,7 +65,7 @@ public class UserService
 	public UserResponse getByEmail(String email)
 	{
 		User user = userRepository.findByEmail(email)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "email", email));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "email", email, EErrorCode.USER_NOT_FOUND));
 		
 		return userMapper.toUserResponse(user);
 	}
@@ -73,7 +74,7 @@ public class UserService
 	public void update(Long id, UserUpdateRequest req)
 	{
 		User existing = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id, EErrorCode.USER_NOT_FOUND));
 		
 		userMapper.updateEntity(existing, req);
 	}
@@ -82,7 +83,7 @@ public class UserService
 	public void updatePassword(Long id, UserPasswordUpdateRequest req)
 	{
 		User existing = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id, EErrorCode.USER_NOT_FOUND));
 		
 		userMapper.updateEntity(existing, req);
 	}
@@ -90,7 +91,7 @@ public class UserService
 	public void delete(Long id)
 	{
 		userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("user", "id", id, EErrorCode.USER_NOT_FOUND));
 		
 		userRepository.deleteById(id);
 	}

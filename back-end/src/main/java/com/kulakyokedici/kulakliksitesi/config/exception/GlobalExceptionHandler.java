@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.kulakyokedici.kulakliksitesi.objects.exception.BaseException;
-import com.kulakyokedici.kulakliksitesi.objects.exception.ResourceNotFoundException;
+import com.kulakyokedici.kulakliksitesi.objects.exception.EErrorCode;
 import com.kulakyokedici.kulakliksitesi.objects.exception.dto.ErrorResponse;
 import com.kulakyokedici.kulakliksitesi.objects.exception.dto.ValidationErrorResponse;
 
@@ -31,6 +31,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
             HttpStatus.BAD_REQUEST.value(),
+            EErrorCode.VALIDATION_ERROR,
             "validation hatası",
             LocalDateTime.now(),
             validationErrors
@@ -38,6 +39,17 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+	
+//	@ExceptionHandler(ConstraintViolationException.class)
+//	public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex)
+//	{
+//		ErrorResponse errorResponse = new ErrorResponse(
+//				HttpStatus.BAD_REQUEST.value(),
+//				"validation hatası",
+//				LocalDateTime.now());
+//		
+//		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+//	}
 	
 	/*
 	 * iş hataları bu kısımda.
@@ -48,6 +60,7 @@ public class GlobalExceptionHandler {
 	{
 		ErrorResponse errorResponse = new ErrorResponse(
 				ex.getHttpStatus().value(),
+				ex.getErrorCode(),
 				ex.getMessage(),
 				LocalDateTime.now());
 		
@@ -61,7 +74,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllGeneric(Exception ex) {
         return new ResponseEntity<>(
-            new ErrorResponse(500, ex.getMessage(), LocalDateTime.now()), // şimdilik error yollansın. bu bir güvenlik açığıdır
+            new ErrorResponse(
+            		500, 
+            		EErrorCode.INTERNAL_SERVER_ERROR,
+            		ex.getMessage(), 
+            		LocalDateTime.now()), // şimdilik error yollansın. bu bir güvenlik açığıdır
             HttpStatus.INTERNAL_SERVER_ERROR
         );
     }

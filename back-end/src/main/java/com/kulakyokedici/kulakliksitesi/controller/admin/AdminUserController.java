@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserPasswordUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.request.UserUpdateRequest;
 import com.kulakyokedici.kulakliksitesi.objects.data.dto.response.UserResponse;
 import com.kulakyokedici.kulakliksitesi.service.UserService;
@@ -34,6 +35,10 @@ public class AdminUserController
 	 * GET istekleri
 	 */
 	
+	/*
+	 * KULLANILIYOR
+	 * admin sayfası, kullanıcılar/tüm kullanıcılar sekmesi.
+	 */
 	@GetMapping
 	public ResponseEntity<?> getUser(
 			@RequestParam(name = "username", required = false) String username,
@@ -67,12 +72,27 @@ public class AdminUserController
 	 */
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateUser(@PathVariable Long id,
+	public ResponseEntity<Void> updateUser(
+			@PathVariable Long id,
 			@Valid @RequestBody UserUpdateRequest newUser)
 	{
 		userService.update(id, newUser);
 		return ResponseEntity.noContent().build();
 	}
+	
+	/*
+	 * KULLANILIYOR
+	 * admin sayfası, şifre değiştir tuşu.
+	 */
+	@PutMapping("/{id}/password")
+	public ResponseEntity<Void> updateUserPassword(
+			@PathVariable Long id,
+			@Valid @RequestBody UserPasswordUpdateRequest req)
+	{
+		userService.updatePassword(id, req);
+		return ResponseEntity.noContent().build();
+	}
+	
 	
 	/*
 	 * DELETE istekleri

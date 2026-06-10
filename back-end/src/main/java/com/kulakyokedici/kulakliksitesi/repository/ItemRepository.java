@@ -14,10 +14,10 @@ import com.kulakyokedici.kulakliksitesi.objects.data.Item;
 public interface ItemRepository extends CrudRepository<Item, Long> {
     
 	// eager loading, proxy yerine tek sorguda getir.
-	@EntityGraph(attributePaths = {"images", "smallImages"})
+	@EntityGraph(attributePaths = {"seller", "images"})
     SortedSet<Item> findBySellerId(Long sellerId);
 	
-	@EntityGraph(attributePaths = {"seller", "images", "smallImages"})
+	@EntityGraph(attributePaths = {"seller", "images"})
 	Optional<Item> findById(Long id);
     
     Optional<Item> findByIdAndSellerId(Long itemId, Long sellerId);
@@ -27,6 +27,9 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
     
     public boolean existsByName(String itemName);
     
-    @EntityGraph(attributePaths = {"images", "smallImages"})
+    @EntityGraph(attributePaths = {"images"})
     public List<Item> findAll();
+    
+    @EntityGraph(attributePaths = {"images"})
+    public List<Item> findByIsRecommended(boolean recommended);
 }
