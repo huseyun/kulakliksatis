@@ -7,7 +7,7 @@ Bu proje, kulaklık satışı yapan bir e-ticaret platformunun arka yüz servisl
 E-Ticaret ve Arka Yüz (Backend) Servisleri
 
 ## Referans Uygulamalar
-Bu çalışma hazırlanırken standart e-ticaret sistemleri,  Spring Security mimarisi ve modern REST API tasarım prensipleri referans alınmıştır.
+Bu çalışma hazırlanırken standart e-ticaret sistemleri, Spring Security mimarisi ve modern REST API tasarım prensipleri referans alınmıştır.
 
 ## Proje Linkleri
 
