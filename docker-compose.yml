@@ -63,8 +63,9 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      ES_URIS: http://elasticsearch:9200
+      ELASTISEARCH_URL: http://elasticsearch:9200
       AUTOEQ_URL: http://autoeq:8000
+      MINIO_URL: http://minio:9000
     ports:
       - "8087:8080"
     depends_on:
